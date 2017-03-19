@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <RuleDef>
+    <defName>FactionBase</defName>
+    <symbol>factionBase</symbol>
+    <resolvers>
+      <li Class="tribble.SymbolResolver_WalledBase">
+        <minRectSize>(12, 12)</minRectSize>
+      </li>
+    </resolvers>
+  </RuleDef>
+  
+  <RuleDef>
+    <defName>UnflooredEmpty</defName>
+    <symbol>unflooredEmpty</symbol>
+    <resolvers>
+      <li Class="tribble.SymbolResolver_UnflooredEmpty">
+        <minRectSize>(3, 3)</minRectSize>
+      </li>
+    </resolvers>
+  </RuleDef>
+  
+  <RuleDef>
+    <defName>ClearForce</defName>
+    <symbol>clearForce</symbol>
+    <resolvers>
+      <li Class="tribble.SymbolResolver_ClearForce">
+        <minRectSize>(1, 1)</minRectSize>
+      </li>
+    </resolvers>
+  </RuleDef>
+  
+  <RuleDef>
+    <defName>Farm</defName>
+    <symbol>farm</symbol>
+    <resolvers>
+      <li Class="tribble.SymbolResolver_Farm">
+        <minRectSize>(1, 1)</minRectSize>
+      </li>
+    </resolvers>
+  </RuleDef>
+  
+  <RuleDef>
+    <defName>Hay</defName>
+    <symbol>hay</symbol>
+    <resolvers>
+      <li Class="tribble.SymbolResolver_Hay">
+        <minRectSize>(3, 3)</minRectSize>
+      </li>
+    </resolvers>
+  </RuleDef>
+  
+  <RuleDef>
+    <defName>HeatingCooling</defName>
+    <symbol>heatingCooling</symbol>
+    <resolvers>
+      <li Class="tribble.SymbolResolver_HeatingCooling">
+        <minRectSize>(2, 2)</minRectSize>
+      </li>
+    </resolvers>
+  </RuleDef>
+  
+  <RuleDef>
+    <defName>Bedroom</defName>
+    <symbol>bedroom</symbol>
+    <resolvers>
+      <li Class="tribble.SymbolResolver_Bedroom">
+        <minRectSize>(3, 3)</minRectSize>
+      </li>
+    </resolvers>
+  </RuleDef>
+  
+  <RuleDef>
+    <defName>FillWithCells</defName>
+    <symbol>fillWithCells</symbol>
+    <resolvers>
+      <li Class="tribble.SymbolResolver_FillWithCells">
+        <minRectSize>(4, 4)</minRectSize>
+      </li>
+    </resolvers>
+  </RuleDef>
+  
+	<GenStepDef>
+    <defName>FactionBase</defName>
+    <mapGenerator>FactionBaseMapGenerator</mapGenerator>
+    <order>550</order>
+    <genStep Class="tribble.GenStep_WalledBase">
+      <count>1</count>
+      <nearMapCenter>true</nearMapCenter>
+    </genStep>
+  </GenStepDef>
+  
+  <DutyDef>
+    <defName>StayInPen</defName>
+    <hook>MediumPriority</hook>
+    <thinkNode Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="ThinkNode_ConditionalInPartyArea">
+          <subNodes>
+            <!-- Eat -->
+            <li Class="ThinkNode_ConditionalStarving">
+              <subNodes>
+                <li Class="JobGiver_GetFood" />
+              </subNodes>
+            </li>
+            
+            <!-- Wander -->
+            <li Class="JobGiver_WanderInPartyArea">
+              <ticksBetweenWandersRange>
+                <min>50</min>
+                <max>250</max>
+              </ticksBetweenWandersRange>
+            </li>
+          </subNodes>
+        </li>
+        
+        <!-- Reach the party area -->
+        <li Class="JobGiver_WanderInPartyArea">
+          <ticksBetweenWandersRange>
+            <min>50</min>
+            <max>250</max>
+          </ticksBetweenWandersRange>
+          <locomotionUrgency>Jog</locomotionUrgency>
+        </li>
+      </subNodes>
+    </thinkNode>
+  </DutyDef>
+  
+</Defs>
